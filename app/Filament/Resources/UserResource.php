@@ -6,6 +6,8 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -24,8 +26,19 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-               
-                
+               TextInput::make('name')
+                ->label('Nombre'),
+               TextInput::make('email')
+                ->label('Correo electronico'),
+               TextInput::make('password')
+                ->password()
+                ->required()
+                ->maxLength(100),
+               Select::make('roles')
+                ->relationship('roles', 'name')
+                ->multiple()
+                ->preload()
+                ->searchable(),
             ]);
     }
 
@@ -37,6 +50,10 @@ class UserResource extends Resource
                     ->label('Nombre'),
                 TextColumn::make('email')
                     ->label('Correo'),
+                TextColumn::make('roles.name')
+                    ->label('Rol')
+                    ->badge()
+                    ->color(fn ($state) => $state === 'super_admin' ? 'success' : 'warning'),
                 TextColumn::make('Created_at')
                     ->label('Creado')
             ])
@@ -59,7 +76,6 @@ class UserResource extends Resource
             //
         ];
     }
-
     public static function getPages(): array
     {
         return [
