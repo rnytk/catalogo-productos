@@ -37,7 +37,7 @@ class ProductResource extends Resource
            ->schema([
                 Grid::make()
                     ->schema([
-                         Section::make('Nuevo Producto')
+                        Section::make('Nuevo Producto')
                             ->description('Nuevo producto')
                             ->schema([
                                 TextInput::make('name')
@@ -74,26 +74,23 @@ class ProductResource extends Resource
 
                             ])->columns(4)->columnSpan(3),
 
-                Section::make('Producto Activo / Inactivo')
-                    ->description('Activar o Inactivar Producto')
-                    ->schema([
-                        Toggle::make('status')
-                            ->onIcon('heroicon-s-check')
+                        Section::make('Producto Activo / Inactivo')
+                            ->description('Activar o Inactivar Producto')
+                        ->schema([
+                            Toggle::make('status')
+                                ->onIcon('heroicon-s-check')
                                    ->default(1)
                                    ->label('Estado')
                                     ->onColor('success')
                                     ->offColor('danger')
                                     ->columns(1)->columnSpan(1),
-                        Checkbox::make('Portada')
-                        ->label('Portada')
-                     
+                            Checkbox::make('Portada')
+                                    ->label('Portada')
                         ->columns(4)->columnSpan(4)
                     ])->columns(4)->columnSpan(1)
                     ])->columns(4)->columnSpan(3),
-              
                 ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table
