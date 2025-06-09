@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use BezhanSalleh\FilamentShield\Forms\ShieldSelectAllToggle;
 use App\Filament\Resources\RoleResource\Pages;
+use App\Models\Product;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
 use Filament\Facades\Filament;
@@ -200,6 +201,7 @@ class RoleResource extends Resource implements HasShieldPermissions
 
     public static function getNavigationBadge(): ?string
     {
+        return static::getModel('Product')::count();
         return Utils::isResourceNavigationBadgeEnabled()
             ? strval(static::getEloquentQuery()->count())
             : null;
