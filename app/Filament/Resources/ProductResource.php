@@ -21,6 +21,7 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -49,11 +50,11 @@ class ProductResource extends Resource
                                     ->maxLength(255)
                                     ->label('Descripcion')
                                       ->columnSpan(2),
-                                TextInput::make('price')
+                                /*TextInput::make('price')
                                     ->numeric()
                                     ->required()
                                     ->label('Precio')
-                                    ->columnSpan(1),
+                                    ->columnSpan(1),*/
                                 Select::make('category_id')
                                     ->relationship('category', 'name')
                                     ->required()
@@ -62,7 +63,6 @@ class ProductResource extends Resource
                                 Select::make('brand_id')
                                     ->relationship('brand', 'name')
                                     ->required()
-                                        ->searchable()
                                     ->label('Marca')
                                     ->columnSpan(1),
                                 FileUpload::make('imagen')
@@ -94,14 +94,19 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+        ->reorderable('sort')
             ->columns([
+                TextColumn::make('sort')
+                    ->label('Orden')
+                    ->badge()
+                    ->color(fn ($state) => $state == '1' ? 'success' : 'warning'),
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->label('Nombre'),
-                BadgeColumn::make('price')
+                /*BadgeColumn::make('price')
                     ->money('GTQ')
-                    ->label('Precio'),
+                    ->label('Precio'),*/
                 TextColumn::make('category.name')
                     ->label('Categoria'),
                 TextColumn::make('brand.name')
@@ -112,17 +117,19 @@ class ProductResource extends Resource
                     ->label('Estado')
                     ->onColor('success')
                     ->offColor('danger'),
-                TextColumn::make('portada')
-                    ->label('Portada'),
+                /*TextColumn::make('portada')
+                    ->label('Portada'),*/
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Creado')
+                    ->dateTime('d/m/Y')
                     ->sortable()
-                    ->label('Creado'),
             ])
+             ->defaultSort('sort', 'asc')
             ->filters([
-                //
+             
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -137,6 +144,10 @@ class ProductResource extends Resource
         return [
             //
         ];
+    }
+    public static function getNavigationBadge(): ?string
+    {
+         return static::getModel()::count();
     }
 
     public static function getPages(): array

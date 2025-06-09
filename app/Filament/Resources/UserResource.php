@@ -54,13 +54,15 @@ class UserResource extends Resource
                     ->label('Rol')
                     ->badge()
                     ->color(fn ($state) => $state === 'super_admin' ? 'success' : 'warning'),
-                TextColumn::make('Created_at')
+                TextColumn::make('created_at')
                     ->label('Creado')
+                    ->date('d/m/Y')
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
