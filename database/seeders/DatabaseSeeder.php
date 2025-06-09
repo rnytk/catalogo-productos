@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-           'created_at'=> '2025-05-21 21:11:34'
+            'created_at'=> '2025-05-21 21:11:34'
         ]);
 
         $this->call([
