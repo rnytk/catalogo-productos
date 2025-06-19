@@ -29,13 +29,13 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
-    
+
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
     public static function form(Form $form): Form
     {
         return $form
-           ->schema([
+            ->schema([
                 Grid::make()
                     ->schema([
                         Section::make('Nuevo Producto')
@@ -45,11 +45,11 @@ class ProductResource extends Resource
                                     ->required()
                                     ->maxLength(100)
                                     ->label('Nombre')
-                                      ->columnSpan(2),
+                                    ->columnSpan(2),
                                 Textarea::make('description')
                                     ->maxLength(255)
                                     ->label('Descripcion')
-                                      ->columnSpan(2),
+                                    ->columnSpan(2),
                                 /*TextInput::make('price')
                                     ->numeric()
                                     ->required()
@@ -76,30 +76,30 @@ class ProductResource extends Resource
 
                         Section::make('Producto Activo / Inactivo')
                             ->description('Activar o Inactivar Producto')
-                        ->schema([
-                            Toggle::make('status')
-                                ->onIcon('heroicon-s-check')
-                                   ->default(1)
-                                   ->label('Estado')
+                            ->schema([
+                                Toggle::make('status')
+                                    ->onIcon('heroicon-s-check')
+                                    ->default(1)
+                                    ->label('Estado')
                                     ->onColor('success')
                                     ->offColor('danger')
                                     ->columns(1)->columnSpan(1),
-                            Checkbox::make('Portada')
+                                Checkbox::make('Portada')
                                     ->label('Portada')
-                        ->columns(4)->columnSpan(4)
-                    ])->columns(4)->columnSpan(1)
+                                    ->columns(4)->columnSpan(4)
+                            ])->columns(4)->columnSpan(1)
                     ])->columns(4)->columnSpan(3),
-                ]);
+            ]);
     }
     public static function table(Table $table): Table
     {
         return $table
-        ->reorderable('sort')
+            ->reorderable('sort')
             ->columns([
                 TextColumn::make('sort')
                     ->label('Orden')
                     ->badge()
-                    ->color(fn ($state) => $state == '1' ? 'success' : 'warning'),
+                    ->color(fn($state) => $state == '1' ? 'success' : 'warning'),
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
@@ -124,10 +124,8 @@ class ProductResource extends Resource
                     ->dateTime('d/m/Y')
                     ->sortable()
             ])
-             ->defaultSort('sort', 'asc')
-            ->filters([
-             
-            ])
+            ->defaultSort('sort', 'asc')
+            ->filters([])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
@@ -138,7 +136,6 @@ class ProductResource extends Resource
                 ]),
             ]);
     }
-
     public static function getRelations(): array
     {
         return [
@@ -147,9 +144,8 @@ class ProductResource extends Resource
     }
     public static function getNavigationBadge(): ?string
     {
-         return static::getModel()::count();
+        return static::getModel()::count();
     }
-
     public static function getPages(): array
     {
         return [
