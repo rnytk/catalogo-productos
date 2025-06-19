@@ -30,26 +30,26 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Grid::make()
-                ->schema([
-                    Section::make('Nueva Categoria')
                     ->schema([
-                        TextInput::make('name')
-                            ->label('Nombre'),
-                        TextInput::make('description')
-                            ->label('Descripcion')
-                        ])->columns(2)->columnSpan(3),
-                    Section::make('Activo / Inactivo')
-                        ->schema([
-                            Toggle::make('status')
-                                ->onIcon('heroicon-s-check')
-                                   ->default(1)
-                                   ->label('Estado')
+                        Section::make('Nueva Categoria')
+                            ->schema([
+                                TextInput::make('name')
+                                    ->label('Nombre'),
+                                TextInput::make('description')
+                                    ->label('Descripcion')
+                            ])->columns(2)->columnSpan(3),
+                        Section::make('Activo / Inactivo')
+                            ->schema([
+                                Toggle::make('status')
+                                    ->onIcon('heroicon-s-check')
+                                    ->default(1)
+                                    ->label('Estado')
                                     ->onColor('success')
                                     ->offColor('danger')
                                     ->columns(2)->columnSpan(2)
-                            ->columns(4)->columnSpan(4)
-                        ])->columns(4)->columnSpan(1)
-                ])->columns(4)->columnSpan(3),
+                                    ->columns(4)->columnSpan(4)
+                            ])->columns(4)->columnSpan(1)
+                    ])->columns(4)->columnSpan(3),
             ]);
     }
     public static function table(Table $table): Table
@@ -57,22 +57,22 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')->searchable()->sortable()
-                ->label('Nombre'),
+                    ->label('Nombre'),
                 TextColumn::make('description')->limit(50)
-                ->label('Descripcion'),
+                    ->label('Descripcion'),
                 TextColumn::make('status')
-                ->badge()
-                ->color(fn (string $state): string => match ($state) {
-                    '1' => 'success',
-                    '0' => 'warning',
-                })
-                ->formatStateUsing(function($state){
-                    return $state ? "Activo" : "Inactivo";
-                })
-                ->label('Estado'),
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        '1' => 'success',
+                        '0' => 'warning',
+                    })
+                    ->formatStateUsing(function ($state) {
+                        return $state ? "Activo" : "Inactivo";
+                    })
+                    ->label('Estado'),
                 TextColumn::make('created_at')
-                ->label('Creado')
-                ->dateTime('d/m/Y')
+                    ->label('Creado')
+                    ->dateTime('d/m/Y')
             ])
             ->filters([
                 //
