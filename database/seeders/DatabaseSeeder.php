@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Brand;
 use App\Models\User;
+use Carbon\Carbon;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,7 +20,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'created_at'=> '2025-05-21 21:11:34'
+           // 'created_at'=> '2025-05-21 21:11:34'
+          //'created_at' => Carbon::parse('2025-05-21 21:11:34')->format('Y-m-d H:i:s'),
         ]);
 
         $this->call([

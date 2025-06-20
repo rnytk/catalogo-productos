@@ -21,6 +21,7 @@ class ProductController extends Controller
                     'description' => $product->description,
                     'brand' => $product->brand->name ?? null,
                     'category' => $product->category->name ?? null,
+                    'color_category' => $product->category->color ?? null,
                     'image_url' => $product->imagen
                         ?  $product->imagen
                         : null,

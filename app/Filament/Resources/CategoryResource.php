@@ -6,6 +6,7 @@ use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -38,15 +39,22 @@ class CategoryResource extends Resource
                                 TextInput::make('description')
                                     ->label('Descripcion')
                             ])->columns(2)->columnSpan(3),
-                        Section::make('Activo / Inactivo')
+                        Section::make('Color / Activo')
                             ->schema([
+                                Select::make('color')
+                                    ->options([
+                                        'Blue' => 'Azul',
+                                        'Green' => 'Verde',
+                                        'Amber' => 'Amarillo',
+                                    ])
+                                    ->columns(4)->columnSpan(4),    
                                 Toggle::make('status')
                                     ->onIcon('heroicon-s-check')
                                     ->default(1)
                                     ->label('Estado')
                                     ->onColor('success')
                                     ->offColor('danger')
-                                    ->columns(2)->columnSpan(2)
+                                    ->columns(3)->columnSpan(3)
                                     ->columns(4)->columnSpan(4)
                             ])->columns(4)->columnSpan(1)
                     ])->columns(4)->columnSpan(3),
@@ -70,6 +78,15 @@ class CategoryResource extends Resource
                         return $state ? "Activo" : "Inactivo";
                     })
                     ->label('Estado'),
+                TextColumn::make('color')
+                    ->badge()
+                    ->colors([
+                        'danger' => static fn ($state): bool => $state === 'Amber',
+                        'success' => static fn ($state): bool => $state === 'Green',
+                        'info' => static fn ($state): bool => $state === 'Blue',
+                    ])
+                    ,
+                    
                 TextColumn::make('created_at')
                     ->label('Creado')
                     ->dateTime('d/m/Y')

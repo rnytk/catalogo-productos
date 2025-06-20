@@ -22,7 +22,7 @@ class ProductSeeder extends Seeder
                 'portada'=> 1,
                 'imagen'=>'products/01JWE9FDTYN5V360YE7QJSW749.jpg',
                 'category_id' => 2,
-                'brand_id' => 1,
+                'brand_id' => 2,
                 'created_at'=> '2025-05-21 21:11:34'
             ],
             [
@@ -33,17 +33,17 @@ class ProductSeeder extends Seeder
                 'portada'=> 0,
                 'imagen'=>'products/01JWE9FDTYN5V360YE7QJSW749.jpg',
                 'category_id' => 2,
-                'brand_id' => 1,
+                'brand_id' => 2,
                 'created_at'=> '2025-05-21 21:11:34'
             ],
             [
                 'name' => 'Pasta caracol',
                 'description' => 'Deliciosa pasta',
-                'price' => 3.20,
+                'price' => 3,
                 'status'=> 1,
                 'portada'=> 0,
                 'imagen'=>'products/01JWE9FDTYN5V360YE7QJSW749.jpg',
-                'category_id' => 1,
+                'category_id' => 4,
                 'brand_id' => 3,
                 'created_at'=> '2025-05-21 21:11:34'
             ]

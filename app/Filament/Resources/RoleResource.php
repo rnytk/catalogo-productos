@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use BezhanSalleh\FilamentShield\Forms\ShieldSelectAllToggle;
 use App\Filament\Resources\RoleResource\Pages;
-use App\Models\Product;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
 use Filament\Facades\Filament;
@@ -54,6 +53,7 @@ class RoleResource extends Resource implements HasShieldPermissions
                                     )
                                     ->required()
                                     ->maxLength(255),
+
                                 Forms\Components\TextInput::make('guard_name')
                                     ->label(__('filament-shield::filament-shield.field.guard_name'))
                                     ->default(Utils::getFilamentAuthGuard())
@@ -74,6 +74,7 @@ class RoleResource extends Resource implements HasShieldPermissions
                                     ->label(__('filament-shield::filament-shield.field.select_all.name'))
                                     ->helperText(fn (): HtmlString => new HtmlString(__('filament-shield::filament-shield.field.select_all.message')))
                                     ->dehydrated(fn (bool $state): bool => $state),
+
                             ])
                             ->columns([
                                 'sm' => 2,
@@ -89,38 +90,34 @@ class RoleResource extends Resource implements HasShieldPermissions
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nombre')
                     ->weight('font-medium')
-                    /*->label(__('filament-shield::filament-shield.column.name'))*/
+                    ->label(__('filament-shield::filament-shield.column.name'))
                     ->formatStateUsing(fn ($state): string => Str::headline($state))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('guard_name')
                     ->badge()
-                    ->color('warning'),
-                    /*->label(__('filament-shield::filament-shield.column.guard_name')),*/
+                    ->color('warning')
+                    ->label(__('filament-shield::filament-shield.column.guard_name')),
                 Tables\Columns\TextColumn::make('team.name')
                     ->default('Global')
                     ->badge()
                     ->color(fn (mixed $state): string => str($state)->contains('Global') ? 'gray' : 'primary')
-                    /*->label(__('filament-shield::filament-shield.column.team'))*/
+                    ->label(__('filament-shield::filament-shield.column.team'))
                     ->searchable()
                     ->visible(fn (): bool => static::shield()->isCentralApp() && Utils::isTenancyEnabled()),
                 Tables\Columns\TextColumn::make('permissions_count')
-                    ->label('Permisos')
                     ->badge()
-                    /*->label(__('filament-shield::filament-shield.column.permissions'))*/
+                    ->label(__('filament-shield::filament-shield.column.permissions'))
                     ->counts('permissions')
                     ->colors(['success']),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Actualizacion')
-                    /*->label(__('filament-shield::filament-shield.column.updated_at'))*/
-                    ->dateTime('d/m/Y H:i:s'),
+                    ->label(__('filament-shield::filament-shield.column.updated_at'))
+                    ->dateTime(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -205,7 +202,6 @@ class RoleResource extends Resource implements HasShieldPermissions
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel('Product')::count();
         return Utils::isResourceNavigationBadgeEnabled()
             ? strval(static::getEloquentQuery()->count())
             : null;
