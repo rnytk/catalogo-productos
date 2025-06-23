@@ -29,6 +29,12 @@ class CategorySeeder extends Seeder
              'status' => 1,
              'created_at'=> '2025-05-21 21:11:34'
             ],
+            ['name' => 'Confiteria',
+             'description' => 'Categoria confiteria',
+             'status' => 3,
+             'created_at'=> '2025-05-21 21:11:34'
+            ],
+
         ]);
     }
 }

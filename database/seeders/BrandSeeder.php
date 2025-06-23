@@ -28,6 +28,11 @@ class BrandSeeder extends Seeder
              'description' => 'Variedad en pastas',
              'Status' => 1,
              'created_at'=> '2025-05-21 21:11:34'
+            ],
+             ['name'=> 'Olat',
+             'description' => 'Variedad en chocolate',
+             'Status' => 1,
+             'created_at'=> '2025-05-21 21:11:34'
             ]
         ]);
     }
