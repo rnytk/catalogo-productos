@@ -13,6 +13,7 @@ class ProductController extends Controller
     {
         $products = Product::with(['brand', 'category'])
         ->where('status', 1)
+        ->orderBy('sort')
         ->get();
         return response()->json([
             'status' => true,
@@ -26,7 +27,7 @@ class ProductController extends Controller
                     'category' => $product->category->name ?? null,
                     'color_category' => $product->category->color ?? null,
                     'image_url' => $product->imagen
-                        ?  asset('storage/' . $product->imagen)
+                        ?  asset('storage/'. $product->imagen)
                         : null,
                     ];
              })->toArray()

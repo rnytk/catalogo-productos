@@ -14,6 +14,12 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::insert([
+            ['name' => 'Inicio',
+             'description' => 'Portada',
+             'color' => 'Blue',
+             'status' => 1,
+             'created_at'=> '2025-05-21 21:11:34'
+            ],
             ['name' => 'Hogar',
              'description' => 'Categoria hogar',
              'color' => 'Blue',
@@ -26,10 +32,10 @@ class CategorySeeder extends Seeder
              'status' => 1,
              'created_at'=> '2025-05-21 21:11:34'
             ],
-            ['name' => 'Confiteria',
+            ['name' => 'Confitería',
              'description' => 'Categoria confiteria',
              'color' => 'Green',
-             'status' => 0,
+             'status' => 1,
              'created_at'=> '2025-05-21 21:11:34'
             ],
 
