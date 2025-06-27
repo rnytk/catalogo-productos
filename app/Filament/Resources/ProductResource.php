@@ -70,6 +70,7 @@ class ProductResource extends Resource
                                 FileUpload::make('imagen')
                                     ->label('Imagen del producto')
                                     ->image()
+                                    ->disk('public')
                                     ->directory('products')
                                     ->required()
                                     ->columnSpan(4),
