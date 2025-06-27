@@ -116,7 +116,8 @@ class ProductResource extends Resource
                     ->label('Marca'),
                 ImageColumn::make('imagen')
                 ->url(fn (?Model $record) => Storage::url($record->imagen))
-                    ->label('Imagen'),
+                    ->label('Imagen')
+                    ->disk('public'),
                 ToggleColumn::make('status')
                     ->label('Estado')
                     ->onColor('success')
