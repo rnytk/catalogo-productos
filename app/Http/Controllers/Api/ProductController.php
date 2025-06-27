@@ -24,7 +24,7 @@ class ProductController extends Controller
                     'category' => $product->category->name ?? null,
                     'color_category' => $product->category->color ?? null,
                     'image_url' => $product->imagen
-                        ?  Storage::url($product->imagen)
+                        ?  asset('storage/products/' . $product->imagen)
                         : null,
                     ];
              })->toArray()
