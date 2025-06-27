@@ -16,22 +16,20 @@ class CategorySeeder extends Seeder
         Category::insert([
             ['name' => 'Hogar',
              'description' => 'Categoria hogar',
+             'color' => 'Blue',
              'status' => 1,
              'created_at'=> '2025-05-21 21:11:34'
             ],
             ['name' => 'Consumo',
              'description' => 'Categoria consumo',
+             'color' => 'Amber',
              'status' => 1,
              'created_at'=> '2025-05-21 21:11:34'
             ],
             ['name' => 'Confiteria',
              'description' => 'Categoria confiteria',
-             'status' => 1,
-             'created_at'=> '2025-05-21 21:11:34'
-            ],
-            ['name' => 'Confiteria',
-             'description' => 'Categoria confiteria',
-             'status' => 3,
+             'color' => 'Green',
+             'status' => 0,
              'created_at'=> '2025-05-21 21:11:34'
             ],
 

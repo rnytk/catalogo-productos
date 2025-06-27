@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -23,7 +24,7 @@ class ProductController extends Controller
                     'category' => $product->category->name ?? null,
                     'color_category' => $product->category->color ?? null,
                     'image_url' => $product->imagen
-                        ?  $product->imagen
+                        ?  Storage::url($product->imagen)
                         : null,
                     ];
              })->toArray()
