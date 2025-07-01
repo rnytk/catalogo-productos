@@ -24,22 +24,30 @@ class EditUser extends EditRecord
                 ->modalSubmitActionLabel('Generar')
                 ->action(function () {
                     $user = $this->record;
+                    
+                    if($user->tokens()->exists()) {
+                        Notification::make()
+                            ->title('Ya existe un token para este usuario')
+                            ->danger()
+                            ->send();
+                    return false;
 
-                    // Elimina tokens anteriores si deseas
-                    $user->tokens()->delete();
+                    }
 
-                    // Genera el nuevo token
                     $token = $user->createToken('token-generado-filament')->plainTextToken;
 
          
                    $this->form->fill(array_merge(
-    $this->form->getState(),
-    ['generated_token' => $token]
-));
+                        $this->form->getState(),
+                        ['generated_token' => $token]
+                    ));
+
                     Notification::make()
                         ->title('Token generado correctamente')
                         ->success()
                         ->send();
+
+                        return false;
                 })
         ];
     }

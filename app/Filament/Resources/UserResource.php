@@ -33,8 +33,8 @@ class UserResource extends Resource
                 ->label('Correo electronico'),
                TextInput::make('password')
                 ->password()
-                ->dehydrateStateUsing(fn ($state) => Hash::make($state)) // Hashea la contraseña solo si se ingresa una nueva.
-    ->dehydrated(fn ($state) => filled($state)) // Solo guarda el campo si no está vacío.
+                ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                ->dehydrated(fn ($state) => filled($state)) 
                 ->required(fn (string $context): bool => $context === 'create')
                 ->maxLength(100),
                Select::make('roles')
