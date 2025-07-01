@@ -15,6 +15,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -32,13 +33,19 @@ class UserResource extends Resource
                 ->label('Correo electronico'),
                TextInput::make('password')
                 ->password()
-                ->required()
+                ->dehydrateStateUsing(fn ($state) => Hash::make($state)) // Hashea la contraseña solo si se ingresa una nueva.
+    ->dehydrated(fn ($state) => filled($state)) // Solo guarda el campo si no está vacío.
+                ->required(fn (string $context): bool => $context === 'create')
                 ->maxLength(100),
                Select::make('roles')
                 ->relationship('roles', 'name')
                 ->multiple()
                 ->preload()
                 ->searchable(),
+                TextInput::make('generated_token')->label('Token generado' )
+                ->afterStateHydrated(function ($component, $state) {
+                            $component->state($state);
+                }),
             ]);
     }
 
@@ -54,9 +61,11 @@ class UserResource extends Resource
                     ->label('Rol')
                     ->badge()
                     ->color(fn ($state) => $state === 'super_admin' ? 'success' : 'warning'),
+                TextColumn::make('generated_token'),
                 TextColumn::make('created_at')
                     ->label('Creado')
-                    ->date('d/m/Y')
+                    ->date('d/m/Y'),
+
             ])
             ->filters([
                 //
