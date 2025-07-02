@@ -23,6 +23,7 @@ class ProductController extends Controller
                    'sort'=> $product->sort,
                     'name' => $product->name,
                     'description' => $product->description,
+                    'price' => $product->price,
                     'brand' => $product->brand->name ?? null,
                     'category' => $product->category->name ?? null,
                     'color_category' => $product->category->color ?? null,

@@ -31,6 +31,9 @@ class AdminPanelProvider extends PanelProvider
                 ])
              ->sidebarCollapsibleOnDesktop()
             ->login()
+            ->favicon(asset('images/logo_portafolio_backoffice.jpg'))
+            ->brandLogo(asset('images/logo_portafolio_backoffice.jpg'))
+         
             ->colors([
                 'primary' => Color::Blue,
             ])
