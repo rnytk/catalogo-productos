@@ -33,6 +33,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->favicon(asset('images/logo_portafolio_backoffice.jpg'))
             ->brandLogo(asset('images/logo_portafolio_backoffice.jpg'))
+            ->brandName('Portafolio DRC')
          
             ->colors([
                 'primary' => Color::Blue,

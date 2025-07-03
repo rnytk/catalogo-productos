@@ -27,6 +27,7 @@ use Filament\Tables\Filters\TernaryFilter;
 use App\Filament\Resources\ProductResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use Filament\Forms\Components\Wizard;
 
 class ProductResource extends Resource
 {
@@ -38,60 +39,27 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Grid::make()
-                    ->schema([
-                        Section::make('Nuevo Producto')
-                            ->description('Nuevo producto')
-                            ->schema([
-                                TextInput::make('name')
+                Wizard::make([
+    Wizard\Step::make('Empresa')
+        ->schema([
+            TextInput::make('name')
                                     ->required()
                                     ->maxLength(100)
                                     ->label('Nombre')
-                                    ->columnSpan(2),
-                                Textarea::make('description')
-                                    ->maxLength(255)
-                                    ->label('Descripcion')
-                                    ->columnSpan(2),
-                                /*TextInput::make('price')
-                                    ->numeric()
-                                    ->required()
-                                    ->label('Precio')
-                                    ->columnSpan(1),*/
-                                Select::make('category_id')
+
+        ]),
+    Wizard\Step::make('Cateagoria')
+        ->schema([
+            Select::make('category_id')
                                     ->relationship('category', 'name')
                                     ->required()
                                     ->label('Categoría')
-                                    ->columnSpan(1),
-                                Select::make('brand_id')
-                                    ->relationship('brand', 'name')
-                                    ->required()
-                                    ->label('Marca')
-                                    ->columnSpan(1),
-                                FileUpload::make('imagen')
-                                    ->label('Imagen del producto')
-                                    ->image()
-                                    ->disk('public')
-                                    ->directory('products')
-                                    ->required()
-                                    ->columnSpan(4),
-
-                            ])->columns(4)->columnSpan(3),
-
-                        Section::make('Producto Activo / Inactivo')
-                            ->description('Activar o Inactivar Producto')
-                            ->schema([
-                                Toggle::make('status')
-                                    ->onIcon('heroicon-s-check')
-                                    ->default(1)
-                                    ->label('Estado')
-                                    ->onColor('success')
-                                    ->offColor('danger')
-                                    ->columns(1)->columnSpan(1),
-                                Checkbox::make('Portada')
-                                    ->label('Portada')
-                                    ->columns(4)->columnSpan(4)
-                            ])->columns(4)->columnSpan(1)
-                    ])->columns(4)->columnSpan(3),
+        ]),
+    Wizard\Step::make('Billing')
+        ->schema([
+            // ...
+        ]),
+])
             ]);
     }
     public static function table(Table $table): Table
@@ -117,7 +85,11 @@ class ProductResource extends Resource
                 ImageColumn::make('imagen')
                 ->url(fn (?Model $record) => Storage::url($record->imagen))
                     ->label('Imagen')
-                    ->disk('public'),
+                    ->disk('public')
+                    ->circular(),
+                TextColumn::make('price')
+                    ->prefix('Q')
+                    ->label('Precio'),
                 ToggleColumn::make('status')
                     ->label('Estado')
                     ->onColor('success')

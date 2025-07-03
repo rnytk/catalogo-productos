@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use App\Http\Resources\ProductResource;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -9,29 +9,25 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-   public function index()
-    {
+   public function index(Request $request){
+        $perPage = $request->get('per_page', 10);
         $products = Product::with(['brand', 'category'])
         ->where('status', 1)
         ->orderBy('sort')
-        ->get();
+        ->paginate($perPage);
+
         return response()->json([
             'status' => true,
-                'data' => $products->map(function ($product) {
-                return [
-                   'id' => $product->id,
-                   'sort'=> $product->sort,
-                    'name' => $product->name,
-                    'description' => $product->description,
-                    'price' => $product->price,
-                    'brand' => $product->brand->name ?? null,
-                    'category' => $product->category->name ?? null,
-                    'color_category' => $product->category->color ?? null,
-                    'image_url' => $product->imagen
-                        ?  asset('storage/'. $product->imagen)
-                        : null,
-                    ];
-             })->toArray()
+            'message' => 'Products retrieved successfully',
+            'data' => [
+                'products' => ProductResource::collection($products),
+                'meta' => [
+                    'current_page' => $products->currentPage(),
+                    'last_page' => $products->lastPage(),
+                    'per_page' => $products->perPage(),
+                    'total' => $products->total(),
+                ],
+            ],
         ], 200);
     }
 
