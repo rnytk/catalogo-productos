@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Filament\Resources;
-
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Product;
@@ -27,7 +26,9 @@ use Filament\Tables\Filters\TernaryFilter;
 use App\Filament\Resources\ProductResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Wizard;
+use Filament\Tables\Filters\SelectFilter;
 
 class ProductResource extends Resource
 {
@@ -40,27 +41,104 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Wizard::make([
-    Wizard\Step::make('Empresa')
-        ->schema([
-            TextInput::make('name')
-                                    ->required()
-                                    ->maxLength(100)
-                                    ->label('Nombre')
-
-        ]),
-    Wizard\Step::make('Cateagoria')
-        ->schema([
-            Select::make('category_id')
-                                    ->relationship('category', 'name')
-                                    ->required()
-                                    ->label('Categoría')
-        ]),
-    Wizard\Step::make('Billing')
-        ->schema([
-            // ...
-        ]),
-])
-            ]);
+                    Wizard\Step::make('Empresa')
+                        ->icon('ionicon-business-outline')
+                        ->completedIcon('ionicon-business-sharp')
+                        ->label('Empresa')
+                        ->columns(3)
+                        ->schema([
+                            Select::make('bussines')
+                                ->label('Empresa')
+                                ->options([
+                                    'DRC' => 'DRC',
+                                    'DICOMOSA' => 'DICOMOSA',
+                                ])
+                        ]),
+                    Wizard\Step::make('Producto')
+                        ->icon('heroicon-o-shopping-bag')
+                        ->schema([
+                            Grid::make(12)
+                                ->schema([
+                                    Section::make('Nuevo Producto')
+                                        ->description('Nuevo producto')
+                                        ->schema([
+                                            TextInput::make('name')
+                                                ->required()
+                                                ->maxLength(100)
+                                                ->label('Nombre')
+                                                ->columnSpan(2),
+                                            Select::make('category_id')
+                                                ->relationship('category', 'name')
+                                                ->required()
+                                                ->label('Categoría')
+                                                ->columnSpan(1),
+                                            Select::make('brand_id')
+                                                ->relationship('brand', 'name')
+                                                ->required()
+                                                ->label('Marca')
+                                                ->columnSpan(1),
+                                            Textarea::make('description')
+                                                ->maxLength(255)
+                                                ->label('Descripcion')
+                                                ->columnSpan(4),
+                                            FileUpload::make('imagen')
+                                                ->label('Imagen del producto')
+                                                ->image()
+                                                ->disk('public')
+                                                ->directory('products')
+                                                ->maxParallelUploads(1)
+                                                ->minSize(100)
+                                                ->maxSize(1024)
+                                                ->required()
+                                                ->columnSpan(4),
+                                        ])->columns(4)->columnSpan(8),
+                                    Grid::make(1)
+                                        ->columnSpan(4)
+                                        ->schema([
+                                            Section::make('Producto Activo / Inactivo')
+                                                ->description('Activar o Inactivar Producto')
+                                                ->schema([
+                                                    Toggle::make('status')
+                                                        ->onIcon('heroicon-s-check')
+                                                        ->default(1)
+                                                        ->label('Estado')
+                                                        ->onColor('success')
+                                                        ->offColor('danger')
+                                                        ->columns(1)->columnSpan(1),
+                                                    Checkbox::make('Portada')
+                                                        ->label('Portada')
+                                                        ->columns(4)->columnSpan(4)
+                                                ])->columns(4)->columnSpan(1),
+                                            Section::make('Precio')
+                                                ->description('Espcala de precios')
+                                                ->schema([
+                                                    TextInput::make('price')
+                                                        ->label('Precio A')
+                                                        ->numeric()
+                                                        ->default(0)
+                                                        ->prefix('Q')
+                                                        ->maxValue(42949672.95)
+                                                        ->columnSpan(4),
+                                                    TextInput::make('price_b')
+                                                        ->label('Precio B')
+                                                        ->numeric()
+                                                        ->default(0)
+                                                        ->prefix('Q')
+                                                        ->maxValue(42949672.95)
+                                                        ->columnSpan(4),
+                                                    TextInput::make('price_c')
+                                                        ->label('Precio C')
+                                                        ->numeric()
+                                                        ->default(0)
+                                                        ->prefix('Q')
+                                                        ->maxValue(42949672.95)
+                                                        ->columnSpan(4)
+                                                ])->columns(4)->columnSpan(1),
+                                        ]),
+                                ]),
+                        ]),
+                ])
+            ])->columns(1);
     }
     public static function table(Table $table): Table
     {
@@ -83,13 +161,15 @@ class ProductResource extends Resource
                 TextColumn::make('brand.name')
                     ->label('Marca'),
                 ImageColumn::make('imagen')
-                ->url(fn (?Model $record) => Storage::url($record->imagen))
+                    ->url(fn(?Model $record) => Storage::url($record->imagen))
                     ->label('Imagen')
                     ->disk('public')
                     ->circular(),
                 TextColumn::make('price')
                     ->prefix('Q')
                     ->label('Precio'),
+                TextColumn::make('bussines')
+                    ->label('Empresa'),
                 ToggleColumn::make('status')
                     ->label('Estado')
                     ->onColor('success')
@@ -102,7 +182,15 @@ class ProductResource extends Resource
                     ->sortable()
             ])
             ->defaultSort('sort', 'asc')
-            ->filters([])
+            ->filters([
+                SelectFilter::make('bussines')
+                    ->label('Empresa')
+                    ->options([
+                        'DRC' => 'DRC',
+                        'DICOMOSA' => 'DICOMOSA',
+    ]),
+            
+            ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),

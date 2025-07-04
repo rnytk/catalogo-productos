@@ -10,11 +10,14 @@ class Product extends Model
         'name',
         'description',
         'price',
+        'price_b',
+        'price_c',
         'status',
         'imagen',
         'category_id',
         'brand_id',
         'sort',
+        'bussines',
     ];
     public function category() {
         return $this->belongsTo(Category::class);

@@ -19,9 +19,12 @@ class ProductResource extends JsonResource
             'sort' => $this->sort,
             'name' => $this->name,
             'description' => $this->description,
-            'price' => $this->price, 
+            'priceA' => $this->price, 
+            'priceB' => $this->price_b, 
+            'priceC' => $this->price_c, 
             'brand' => $this->brand->name ?? null,
             'category' => $this->category->name ?? null,
+            'bussines' => $this->bussines,
             'color_category' => $this->category->color ?? null,
             'image_url' => $this->imagen
                 ? asset('storage/' . $this->imagen)
