@@ -17,7 +17,10 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2)->nullable();
+            $table->string('price_b')->nullable();
+            $table->string('price_c')->nullable();
             $table->boolean('status');
+            $table->string('bussines')->nullable();
             $table->boolean('portada')->nullable();
             $table->string('imagen');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');

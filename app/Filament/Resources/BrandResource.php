@@ -96,6 +96,7 @@ class BrandResource extends Resource
             //
         ];
     }
+    
 
     public static function getPages(): array
     {
@@ -104,5 +105,9 @@ class BrandResource extends Resource
             'create' => Pages\CreateBrand::route('/create'),
             'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
+    }
+     public static function getModelLabel(): string
+    {
+        return 'Marcas';
     }
 }

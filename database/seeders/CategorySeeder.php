@@ -18,25 +18,25 @@ class CategorySeeder extends Seeder
              'description' => 'Portada',
              'color' => 'Blue',
              'status' => 1,
-             'created_at'=> '2025-05-21 21:11:34'
+             'created_at'=> now(),
             ],
             ['name' => 'Hogar',
              'description' => 'Categoria hogar',
              'color' => 'Blue',
              'status' => 1,
-             'created_at'=> '2025-05-21 21:11:34'
+             'created_at'=> now(),
             ],
             ['name' => 'Consumo',
              'description' => 'Categoria consumo',
              'color' => 'Amber',
              'status' => 1,
-             'created_at'=> '2025-05-21 21:11:34'
+             'created_at'=> now(),
             ],
             ['name' => 'Confitería',
              'description' => 'Categoria confiteria',
              'color' => 'Green',
              'status' => 1,
-             'created_at'=> '2025-05-21 21:11:34'
+             'created_at'=> now(),
             ],
 
         ]);

@@ -6,7 +6,8 @@ use App\Filament\Resources\UserResource;
 use Filament\Actions;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\EditRecord;
+//use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\BaseEditRecord as EditRecord;
 
 class EditUser extends EditRecord
 {

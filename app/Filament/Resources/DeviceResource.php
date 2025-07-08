@@ -90,6 +90,10 @@ class DeviceResource extends Resource
             //
         ];
     }
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function getPages(): array
     {
@@ -109,5 +113,9 @@ public static function shouldRegisterNavigation(): bool
     return true;
 }
 
+ public static function getModelLabel(): string
+    {
+        return 'Dispositivos';
+    }
 
 }

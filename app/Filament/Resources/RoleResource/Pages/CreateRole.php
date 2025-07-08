@@ -4,7 +4,8 @@ namespace App\Filament\Resources\RoleResource\Pages;
 
 use App\Filament\Resources\RoleResource;
 use BezhanSalleh\FilamentShield\Support\Utils;
-use Filament\Resources\Pages\CreateRecord;
+//use Filament\Resources\Pages\CreateRecord;
+use App\Filament\Resources\BaseCreateRecord as CreateRecord;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 

@@ -5,7 +5,9 @@ namespace App\Filament\Resources\RoleResource\Pages;
 use App\Filament\Resources\RoleResource;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+//use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\BaseEditRecord as EditRecord;
+
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 

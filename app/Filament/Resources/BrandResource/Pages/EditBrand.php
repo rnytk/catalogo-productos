@@ -4,7 +4,8 @@ namespace App\Filament\Resources\BrandResource\Pages;
 
 use App\Filament\Resources\BrandResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+//use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\BaseEditRecord as EditRecord;
 
 class EditBrand extends EditRecord
 {

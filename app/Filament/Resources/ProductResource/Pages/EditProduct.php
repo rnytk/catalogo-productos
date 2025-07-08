@@ -4,7 +4,8 @@ namespace App\Filament\Resources\ProductResource\Pages;
 
 use App\Filament\Resources\ProductResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+//use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\BaseEditRecord as EditRecord;
 
 class EditProduct extends EditRecord
 {
@@ -17,8 +18,4 @@ class EditProduct extends EditRecord
         ];
     }
 
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
 }
