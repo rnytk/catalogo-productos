@@ -103,15 +103,7 @@ class DeviceResource extends Resource
             'edit' => Pages\EditDevice::route('/{record}/edit'),
         ];
     }
-    public static function canViewAny(): bool
-{
-    return true;
-}
-
-public static function shouldRegisterNavigation(): bool
-{
-    return true;
-}
+    
 
  public static function getModelLabel(): string
     {

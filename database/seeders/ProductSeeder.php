@@ -13,7 +13,7 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::insert([
+        /*Product::insert([
             [
                 'name' => 'Amarol',
                 'description' => 'Amarol para papas fritas',
@@ -47,6 +47,6 @@ class ProductSeeder extends Seeder
                 'brand_id' => 3,
                 'created_at'=> '2025-05-21 21:11:34'
             ]
-        ]);
+        ]);*/
     }
 }

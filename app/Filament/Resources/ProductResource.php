@@ -191,7 +191,10 @@ class ProductResource extends Resource
                     ->options([
                         'DRC' => 'DRC',
                         'DICOMOSA' => 'DICOMOSA',
-    ]),
+            ]),
+            SelectFilter::make('category_id')
+        ->label('Categoría')
+        ->relationship('category', 'name'),
             
             ])
             ->actions([
