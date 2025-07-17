@@ -49,6 +49,7 @@ class ProductResource extends Resource
                         ->schema([
                             Select::make('bussines')
                                 ->label('Empresa')
+                                ->required()
                                 ->options([
                                     'DRC' => 'DRC',
                                     'DICOMOSA' => 'DICOMOSA',
@@ -82,13 +83,17 @@ class ProductResource extends Resource
                                                 ->label('Descripcion')
                                                 ->columnSpan(4),
                                             FileUpload::make('imagen')
-                                                ->label('Imagen del producto')
+                                                ->label('Imagen / video del producto')
                                                 ->image()
                                                 ->disk('public')
                                                 ->directory('products')
+                                                ->acceptedFileTypes([
+                                                    'image/jpeg', 'image/jpeg', 'image/png', 'image/webp',
+                                                    'video/mp4', 'video/avi',
+                                                ])
                                                 ->maxParallelUploads(1)
                                                 ->minSize(100)
-                                                ->maxSize(1024)
+                                                ->maxSize(10240)
                                                 ->required()
                                                 ->columnSpan(4),
                                         ])->columns(4)->columnSpan(8),
