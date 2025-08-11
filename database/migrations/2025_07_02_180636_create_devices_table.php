@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('serial');
+            $table->string('business');
             $table->boolean('status');
             $table->timestamps();
         });

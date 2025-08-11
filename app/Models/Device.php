@@ -11,6 +11,7 @@ class Device extends Model
     'name', 
     'description',
     'serial',
-    'status'
+    'status',
+    'business',
     ];
 }

@@ -24,7 +24,7 @@ class ProductResource extends JsonResource
             'priceC' => (float) $this->price_c, 
             'brand' => $this->brand->name ?? null,
             'category' => $this->category->name ?? null,
-            'bussines' => $this->bussines,
+            'business' => $this->business,
             'color_category' => $this->category->color ?? null,
             'image_url' => $this->imagen
                 ? asset('storage/' . $this->imagen)

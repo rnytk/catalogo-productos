@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Wizard;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 
 class ProductResource extends Resource
@@ -47,7 +48,7 @@ class ProductResource extends Resource
                         ->label('Empresa')
                         ->columns(3)
                         ->schema([
-                            Select::make('bussines')
+                            Select::make('business')
                                 ->label('Empresa')
                                 ->required()
                                 ->options([
@@ -176,7 +177,7 @@ class ProductResource extends Resource
                 TextColumn::make('price')
                     ->prefix('Q')
                     ->label('Precio'),
-                TextColumn::make('bussines')
+                TextColumn::make('business')
                     ->label('Empresa'),
                 ToggleColumn::make('status')
                     ->label('Estado')
@@ -191,17 +192,24 @@ class ProductResource extends Resource
             ])
             ->defaultSort('sort', 'asc')
             ->filters([
-                SelectFilter::make('bussines')
+                SelectFilter::make('business')
                     ->label('Empresa')
                     ->options([
                         'DRC' => 'DRC',
                         'DICOMOSA' => 'DICOMOSA',
-            ]),
-            SelectFilter::make('category_id')
-        ->label('Categoría')
-        ->relationship('category', 'name'),
-            
-            ])
+                ])
+                ->placeholder('Seleccione una empresa') // evita que "All" se seleccione por defecto
+                ->query(function (Builder $query, array $data) {
+                    return isset($data['value']) && $data['value']
+                        ? $query->where('business', $data['value'])
+                        : $query->whereRaw('0 = 1'); // No mostrar resultados si no se seleccionó nada
+                }),
+
+                SelectFilter::make('category_id')
+                    ->label('Categoría')
+                    ->relationship('category', 'name'),
+            ],layout: FiltersLayout::AboveContent)
+
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),

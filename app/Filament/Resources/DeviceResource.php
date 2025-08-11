@@ -8,6 +8,7 @@ use App\Models\Device;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -37,9 +38,18 @@ class DeviceResource extends Resource
                                     ->label('Nombre | Ruta')
                                     ->required(),
                                 TextInput::make('description')
+                                ->required()
                                     ->label('Descripcion'),
                                 TextInput::make('serial')
-                                    ->required()
+                                    ->required(),
+                                Select::make('business')
+                                ->label('Empresa')
+                                ->required()
+                                ->options([
+                                    'DRC' => 'DRC',
+                                    'DICOMOSA' => 'DICOMOSA',
+                                ])
+                                
                             ])->columns(2)->columnSpan(3),
                         Section::make('Activo / Inactivo')
                             ->schema([    
@@ -66,6 +76,8 @@ class DeviceResource extends Resource
                     ->label('Descripcion'),
                 TextColumn::make('serial')
                     ->label('Serie'),
+                TextColumn::make('business')
+                    ->label('Empresa'),
                 ToggleColumn::make('status')
                     ->label('Estado')
                     ->onColor('success')
