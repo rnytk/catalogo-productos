@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderViewController;
 use Illuminate\Support\Facades\Route;
 
 /*Route::get('/', function () {
@@ -7,3 +8,4 @@ use Illuminate\Support\Facades\Route;
 });¨*/
 
 Route::redirect('/', '/admin');
+Route::get('/pedidos', [OrderViewController::class, 'index'])->name('orders.view');
