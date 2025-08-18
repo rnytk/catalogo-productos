@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "bezhansalleh/filament-shield": "^3.3",
+        "codeat3/blade-codicons": "^1.34",
         "doctrine/dbal": "^4.3",
         "faisal50x/blade-ionicons": "^1.1",
         "filament/filament": "^3.3",

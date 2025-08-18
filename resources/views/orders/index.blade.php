@@ -20,144 +20,145 @@
         @endif
     </head>
     <body class="bg-gray-100 font-sans leading-normal tracking-normal">
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold mb-6 text-gray-800">Listado de Pedidos</h1>
+            @php
+                $statuses = $ordersCollection->pluck('Status')->unique()->sort()->values();
+                $vendedores = $ordersCollection->pluck('Vendedor')->unique()->sort()->values();
+                $supervisores = $ordersCollection->pluck('Supervisor')->unique()->sort()->values();
+            @endphp
+            <div class="mb-6 flex flex-wrap gap-4">
+                <div>
+                    <label for="filterStatus" class="block mb-1 font-semibold text-gray-700">Status</label>
+                    <select id="filterStatus" class="rounded px-3 py-2 sm:w-48 w-40 bg-white shadow-md">
+                        <option value="">Todos</option>
+                        @foreach($statuses as $status)
+                            <option value="{{ $status }}">{{ $status }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800">Listado de Pedidos</h1>
+                <div>
+                    <label for="filterVendedor" class="block mb-1 font-semibold text-gray-700">Vendedor</label>
+                    <select id="filterVendedor" class="rounded px-3 py-2 sm:w-48 w-40 bg-white shadow-md">
+                        <option value="">Todos</option>
+                        @foreach($vendedores as $v)
+                            <option value="{{ $v }}">{{ $v }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
+                <div>
+                    <label for="filterSupervisor" class="block mb-1 font-semibold text-gray-700">Supervisor</label>
+                    <select id="filterSupervisor" class="rounded px-3 py-2 sm:w-48 w-40 bg-white shadow-md">
+                        <option value="">Todos</option>
+                        @foreach($supervisores as $s)
+                            <option value="{{ $s }}">{{ $s }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
-  @php
-        $statuses = $ordersCollection->pluck('Status')->unique()->sort()->values();
-        $vendedores = $ordersCollection->pluck('Vendedor')->unique()->sort()->values();
-        $supervisores = $ordersCollection->pluck('Supervisor')->unique()->sort()->values();
-    @endphp
- 
+            <div class="mb-6 flex flex-wrap gap-4">
+                <div>
+                    <label for="updatetable" class="block mb-1 font-semibold text-gray-700">Actualizar Estado</label>
+                    <form action="{{ route('orders.actualizar') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Actualizar
+                        </button>
+                    </form>
+                </div>
+            </div>
+          
 
-    <div class="mb-6 flex flex-wrap gap-4">
-        <div>
-            <label for="filterStatus" class="block mb-1 font-semibold text-gray-700">Status</label>
-            <select id="filterStatus" class="rounded px-3 py-2 sm:w-48 w-40 bg-white shadow-md">
-                <option value="">Todos</option>
-                @foreach($statuses as $status)
-                    <option value="{{ $status }}">{{ $status }}</option>
-                @endforeach
-            </select>
+            <div class="overflow-x-auto bg-white rounded-lg shadow">
+                <table id="ordersTable" class="min-w-full leading-normal text-xs sm:text-sm ">
+                    <thead>
+                        <tr class="bg-gray-200 text-gray-600 uppercase text-xs sm:text-sm font-semibold">
+                            <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">#</th>
+                            <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Cliente</th>
+                            <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Nombre</th>
+                            <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Vendedor</th>
+                            <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Status</th>
+                            <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">SAP</th>
+                            <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">FACT</th>
+                            <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Referencia2</th>
+                            <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Supervisor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($ordersCollection as $order)
+                            <tr class="hover:bg-gray-100">
+                                <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->{"#"} ?? '' }}</td>
+                                <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->Cliente ?? '' }}</td>
+                                <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->Nombre ?? '' }}</td>
+                                <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->Vendedor ?? '' }}</td>
+                                <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->Status  }}</td>
+                                <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300"> 
+                                    @if (!empty($order->OV_SAP))
+                                        <x-heroicon-s-check-badge class="h-6 w-6 text-green-500" />
+                                    @else
+                                        <x-heroicon-o-no-symbol class="h-6 w-6 text-red-500"/>
+                                    @endif </td>
+                                <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->FC_SAP ?? '' }}</td>
+                                <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">
+                                    @if (!empty($order->referencia2))
+                                    <x-codicon-error class="h-6 w-6 text-yellow-500" />
+                                    @endif
+                                </td>
+                                <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->Supervisor ?? '' }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="10" class="px-5 py-4 border-b border-gray-300 text-center text-gray-500">
+                                    No hay pedidos para mostrar.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <div>
-            <label for="filterVendedor" class="block mb-1 font-semibold text-gray-700">Vendedor</label>
-            <select id="filterVendedor" class="rounded px-3 py-2 sm:w-48 w-40 bg-white shadow-md">
-                <option value="">Todos</option>
-                @foreach($vendedores as $v)
-                    <option value="{{ $v }}">{{ $v }}</option>
-                @endforeach
-            </select>
-        </div>
+        <script>
+            const filterStatus = document.getElementById('filterStatus');
+            const filterVendedor = document.getElementById('filterVendedor');
+            const filterSupervisor = document.getElementById('filterSupervisor');
+            const table = document.getElementById('ordersTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
 
-        <div>
-            <label for="filterSupervisor" class="block mb-1 font-semibold text-gray-700">Supervisor</label>
-            <select id="filterSupervisor" class="rounded px-3 py-2 sm:w-48 w-40 bg-white shadow-md">
-                <option value="">Todos</option>
-                @foreach($supervisores as $s)
-                    <option value="{{ $s }}">{{ $s }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
+            function filterTable() {
+                const statusVal = filterStatus.value.toLowerCase();
+                const vendedorVal = filterVendedor.value.toLowerCase();
+                const supervisorVal = filterSupervisor.value.toLowerCase();
 
-    <div class="mb-6 flex flex-wrap gap-4">
-        <div>
-            <label for="filterVendedor" class="block mb-1 font-semibold text-gray-700">Actualizar Estado</label>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Actualizar
-                </button>
-        </div>
-    </div>
+                rows.forEach(row => {
+                    const tds = row.querySelectorAll('td');
+                    if(tds.length === 0) return; // fila vacía "No hay pedidos..."
 
-    <div class="overflow-x-auto bg-white rounded-lg shadow">
-        <table id="ordersTable" class="min-w-full leading-normal text-xs sm:text-sm ">
-            <thead>
-                <tr class="bg-gray-200 text-gray-600 uppercase text-xs sm:text-sm font-semibold">
-                    <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">#</th>
-                    <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Cliente</th>
-                    <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Nombre</th>
-                    <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Vendedor</th>
-                    <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Status</th>
-                    <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">SAP</th>
-                    <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">FACT</th>
-                    <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Referencia2</th>
-                    <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Supervisor</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($ordersCollection as $order)
-                    <tr class="hover:bg-gray-100">
-                        <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->{"#"} ?? '' }}</td>
-                        <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->Cliente ?? '' }}</td>
-                        <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->Nombre ?? '' }}</td>
-                        <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->Vendedor ?? '' }}</td>
-                        <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->Status  }}</td>
-                        <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300"> 
-                            @if (!empty($order->OV_SAP))
-                                <x-heroicon-s-check-badge class="h-6 w-6 text-green-500" />
-                            @else
-                                <x-heroicon-o-no-symbol class="h-6 w-6 text-red-500"/>
-                            @endif </td>
-                        <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->FC_SAP ?? '' }}</td>
-                        <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->referencia2 ?? '' }}</td>
-                        <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->Supervisor ?? '' }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="10" class="px-5 py-4 border-b border-gray-300 text-center text-gray-500">
-                            No hay pedidos para mostrar.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-</div>
+                    const rowStatus = tds[4].textContent.toLowerCase();
+                    const rowVendedor = tds[3].textContent.toLowerCase();
+                    const rowSupervisor = tds[8].textContent.toLowerCase();
 
-<script>
-    const filterStatus = document.getElementById('filterStatus');
-    const filterVendedor = document.getElementById('filterVendedor');
-    const filterSupervisor = document.getElementById('filterSupervisor');
-    const table = document.getElementById('ordersTable');
-    const tbody = table.querySelector('tbody');
-    const rows = Array.from(tbody.querySelectorAll('tr'));
+                    const matchStatus = !statusVal || rowStatus === statusVal;
+                    const matchVendedor = !vendedorVal || rowVendedor === vendedorVal;
+                    const matchSupervisor = !supervisorVal || rowSupervisor === supervisorVal;
 
-    function filterTable() {
-        const statusVal = filterStatus.value.toLowerCase();
-        const vendedorVal = filterVendedor.value.toLowerCase();
-        const supervisorVal = filterSupervisor.value.toLowerCase();
-
-        rows.forEach(row => {
-            const tds = row.querySelectorAll('td');
-            if(tds.length === 0) return; // fila vacía "No hay pedidos..."
-
-            const rowStatus = tds[4].textContent.toLowerCase();
-            const rowVendedor = tds[3].textContent.toLowerCase();
-            const rowSupervisor = tds[8].textContent.toLowerCase();
-
-            const matchStatus = !statusVal || rowStatus === statusVal;
-            const matchVendedor = !vendedorVal || rowVendedor === vendedorVal;
-            const matchSupervisor = !supervisorVal || rowSupervisor === supervisorVal;
-
-            if (matchStatus && matchVendedor && matchSupervisor) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
+                    if (matchStatus && matchVendedor && matchSupervisor) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
             }
-        });
-    }
 
-    filterStatus.addEventListener('change', filterTable);
-    filterVendedor.addEventListener('change', filterTable);
-    filterSupervisor.addEventListener('change', filterTable);
-</script>
-
-
-</body>
+            filterStatus.addEventListener('change', filterTable);
+            filterVendedor.addEventListener('change', filterTable);
+            filterSupervisor.addEventListener('change', filterTable);
+        </script>
+    </body>
 
             
       
