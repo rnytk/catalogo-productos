@@ -83,7 +83,7 @@
                             <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Status</th>
                             <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">SAP</th>
                             <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">FACT</th>
-                            <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Referencia2</th>
+                            <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Error</th>
                             <th class="px-2 py-2 sm:px-5 sm:py-3 border-b border-gray-300 text-left">Supervisor</th>
                         </tr>
                     </thead>
@@ -103,7 +103,7 @@
                                     @endif </td>
                                 <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">{{ $order->FC_SAP ?? '' }}</td>
                                 <td class="px-2 py-2 sm:px-5 sm:py-4 border-b border-gray-300">
-                                    @if (!empty($order->referencia2))
+                                    @if (!empty($order->referencia2) or !empty($order->referencia3)  )
                                     <x-codicon-error class="h-6 w-6 text-yellow-500" />
                                     @endif
                                 </td>
