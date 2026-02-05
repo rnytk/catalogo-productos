@@ -11,6 +11,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -70,7 +71,7 @@ class CatalogResource extends Resource
                                             ->offColor('danger')
                                             ->default(true)
                                             ->live(), // 👈 MUY IMPORTANTE
-                                            
+
 
                                         Placeholder::make('status_label')
                                             ->label('Estado actual')
@@ -101,6 +102,17 @@ class CatalogResource extends Resource
                                                 $record?->updated_at?->format('Y-m-d H:i') ?? '-'
                                             ),
                                     ]),
+
+                                Select::make('products')
+                                    ->label('Productos')
+                                    ->multiple()
+                                    ->relationship(
+                                        name: 'products',
+                                        titleAttribute: 'name'
+                                    )
+                                    ->preload()
+                                    ->searchable()
+                                    ->required(),
                             ]),
                     ]),
 
@@ -128,20 +140,20 @@ class CatalogResource extends Resource
     {
         return $table
             ->columns([
-                     TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->label('Nombre'),
-                    TextColumn::make('description')
+                TextColumn::make('description')
                     ->searchable()
                     ->sortable()
                     ->label('Descripcion'),
-                   ImageColumn::make('cover_image')
-                   ->label('Imagen')
+                ImageColumn::make('cover_image')
+                    ->label('Imagen')
                     ->disk('public')
                     ->circular(),
-                
-                    ToggleColumn::make('status')
+
+                ToggleColumn::make('status')
                     ->label('Estado')
                     ->onColor('success')
                     ->offColor('danger'),

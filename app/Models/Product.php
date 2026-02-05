@@ -28,6 +28,6 @@ class Product extends Model
     }
 
     public function catalog(){
-        return $this->belongsTo(Catalog::class);
+        return $this->belongsToMany(Catalog::class);
     }
 }
