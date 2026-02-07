@@ -16,4 +16,16 @@ class EditCatalog extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    public function hasCombinedRelationManagerTabsWithContent(): bool
+    {
+        return true;
+    }
+
+    protected function getFooterWidgets(): array
+    {
+        return [
+            CatalogResource\Widgets\ProductsTableWidget::class,
+        ];
+    }
 }

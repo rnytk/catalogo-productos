@@ -19,6 +19,7 @@ class Product extends Model
         'sort',
         'business',
     ];
+    
     public function category() {
         return $this->belongsTo(Category::class);
     }
@@ -27,7 +28,9 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
-    public function catalog(){
-        return $this->belongsToMany(Catalog::class);
+    // ✅ CORREGIDO: Relación muchos a muchos
+    public function catalogs(){
+        return $this->belongsToMany(Catalog::class)
+            ->withTimestamps();
     }
 }
